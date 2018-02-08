@@ -88,7 +88,7 @@ def _pick_teams(teams, rating):
             reply_text = 'Nao existem times nesse rating'
     else:
         reply_text = 'Vc escolheu um rating invalido'
-     return reply_text
+    return reply_text
 
 def _load_from_file(file):
     teams = {
