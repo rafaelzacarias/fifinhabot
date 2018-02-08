@@ -30,7 +30,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-teams = _load_teams()
+
 
 # Define a few command handlers. These usually take the two arguments bot and
 # update. Error handlers also receive the raised TelegramError object in error.
@@ -79,9 +79,12 @@ def _load_teams():
             teams[rating].append(team)
     return teams
 
+teams = _load_teams()
+
 def main():
     """Start the bot."""
     # Create the EventHandler and pass it your bot's token.
+
     updater = Updater(os.getenv('TELEGRAM_TOKEN'))
 
     # Get the dispatcher to register handlers
