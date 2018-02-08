@@ -21,6 +21,8 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
 import os
 import random
+import csv
+from collections import defaultdict
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -28,6 +30,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
+teams = _load_teams()
 
 # Define a few command handlers. These usually take the two arguments bot and
 # update. Error handlers also receive the raised TelegramError object in error.
@@ -35,10 +38,13 @@ def start(bot, update):
     """Send a message when the command /start is issued."""
     update.message.reply_text('COEEEEH RAPAZIAAAAAADA!')
 
-
 def help(bot, update):
     """Send a message when the command /help is issued."""
-    update.message.reply_text('/duplas <nome1> <nome2>.... <nome n>')
+    commands = [
+        '/duplas <nome1> <nome2>.... <nome n>',
+        '/times <rating>'
+    ]
+    update.message.reply_text("\n".join(commands))
 
 def shuffle_pairs(bot, update):
     """Send a message when the command /duplas is issued."""
@@ -52,11 +58,26 @@ def shuffle_pairs(bot, update):
             reply_text += "\n Sobrou: [{}] ".format(names[i])
     update.message.reply_text(reply_text)
 
+def pick_teams(bot, update):
+    """Send a message when the command /times is issued."""
+    rating = update.message.text.split('/times ')[1]
+    if teams.get(rating):
+        reply_text = '[' + ', '.join(random.sample(teams[rating], 4)) + ']'
+    else:
+        reply_text = 'Vc escolheu um rating invalido'
+    update.message.reply_text(reply_text)
 
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
 
+def _load_teams():
+    teams = defaultdict(list)
+    with open('teams.csv', mode='r') as infile:
+        reader = csv.reader(infile)
+        for (team, rating) in reader:
+            teams[rating].append(team)
+    return teams
 
 def main():
     """Start the bot."""
@@ -70,7 +91,7 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("duplas", shuffle_pairs))
-
+    dp.add_handler(CommandHandler("times", pick_teams))
 
     # log all errors
     dp.add_error_handler(error)
