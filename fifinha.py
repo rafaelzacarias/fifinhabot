@@ -61,25 +61,56 @@ def shuffle_pairs(bot, update):
 def pick_teams(bot, update):
     """Send a message when the command /times is issued."""
     rating = update.message.text.split('/times ')[1]
-    if teams.get(rating):
-        reply_text = '[' + ', '.join(random.sample(teams[rating], 4)) + ']'
-    else:
-        reply_text = 'Vc escolheu um rating invalido'
+    reply_text = _pick_teams(teams, rating)
+    update.message.reply_text(reply_text)
+
+def pick_men_nationals(bot, update):
+    """Send a message when the command /selecoes_masculinas is issued."""
+    rating = update.message.text.split('/selecoes_masculinas ')[1]
+    reply_text = _pick_teams(men_nationals, rating)
+    update.message.reply_text(reply_text)
+
+def pick_women_nationals(bot, update):
+    """Send a message when the command /selecoes_masculinas is issued."""
+    rating = update.message.text.split('/selecoes_femininas ')[1]
+    reply_text = _pick_teams(women_nationals, rating)
     update.message.reply_text(reply_text)
 
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
 
-def _load_teams():
-    teams = defaultdict(list)
-    with open('teams.csv', mode='r') as infile:
+def _pick_teams(teams, rating):
+    if teams.get(rating):
+        if len(teams[rating]) >= 4:
+            reply_text = '[' + ', '.join(random.sample(teams[rating], 4)) + ']'
+        else:
+            reply_text = 'Nao existem times nesse rating'
+    else:
+        reply_text = 'Vc escolheu um rating invalido'
+     return reply_text
+
+def _load_from_file(file):
+    teams = {
+        '1': [],
+        '1.5': [],
+        '2': [],
+        '2.5': [],
+        '3': [],
+        '3.5': [],
+        '4': [],
+        '4.5': [],
+        '5': []
+    }
+    with open(file, mode='r') as infile:
         reader = csv.reader(infile)
         for (team, rating) in reader:
             teams[rating].append(team)
     return teams
 
-teams = _load_teams()
+teams = _load_from_file('teams.csv')
+men_nationals = _load_from_file('men_nationals.csv')
+women_nationals = _load_from_file('women_nationals.csv')
 
 def main():
     """Start the bot."""
@@ -95,6 +126,8 @@ def main():
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("duplas", shuffle_pairs))
     dp.add_handler(CommandHandler("times", pick_teams))
+    dp.add_handler(CommandHandler("selecoes_masculinas", pick_men_nationals))
+    dp.add_handler(CommandHandler("selecoes_femininas", pick_women_nationals))
 
     # log all errors
     dp.add_error_handler(error)
