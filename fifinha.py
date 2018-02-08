@@ -81,7 +81,7 @@ def error(bot, update, error):
     logger.warning('Update "%s" caused error "%s"', update, error)
 
 def _pick_teams(teams, rating):
-    if teams.get(rating):
+    if rating in teams:
         if len(teams[rating]) >= 4:
             reply_text = '[' + ', '.join(random.sample(teams[rating], 4)) + ']'
         else:
