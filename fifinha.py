@@ -91,8 +91,8 @@ def error(bot, update, error):
 
 def _pick_teams(teams, rating):
     if rating in teams:
-        if len(teams[rating]) >= 4:
-            reply_text = '[' + ', '.join(random.sample(teams[rating], 4)) + ']'
+        if len(teams[rating]) >= 2:
+            reply_text = '[' + ', '.join(random.sample(teams[rating], 2)) + ']'
         else:
             reply_text = 'Nao existem times nesse rating'
     else:
