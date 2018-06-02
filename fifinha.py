@@ -49,7 +49,9 @@ def help(bot, update):
     """Send a message when the command /help is issued."""
     commands = [
         '/duplas <nome1> <nome2>.... <nome n>',
-        '/times <rating>'
+        '/times <rating>',
+        '/selecoes_masculinas <rating>',
+        '/selecoes_femininas <rating>'
     ]
     update.message.reply_text("\n".join(commands))
 
