@@ -57,7 +57,7 @@ def help(bot, update):
 
 def shuffle_pairs(bot, update):
     """Send a message when the command /duplas is issued."""
-    names = update.message.text.split('/duplas ')[1].split(' ')
+    names = update.message.text.split('/duplas ')[1].encode('utf-8').split(' ')
     random.shuffle(names)
     reply_text = "As duplas são:\n"
     for i in range(0,len(names),2):
