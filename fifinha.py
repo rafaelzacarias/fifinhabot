@@ -74,8 +74,8 @@ def pick_teams(bot, update):
     update.message.reply_text(reply_text)
 
 def pick_men_nationals(bot, update):
-    """Send a message when the command /selecoes_masculinas is issued."""
-    rating = update.message.text.split('/selecoes_masculinas ')[1]
+    """Send a message when the command /copa is issued."""
+    rating = update.message.text.split('/copa ')[1]
     reply_text = _pick_teams(men_nationals, rating)
     update.message.reply_text(reply_text)
 
@@ -135,7 +135,7 @@ def main():
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("duplas", shuffle_pairs))
     dp.add_handler(CommandHandler("times", pick_teams))
-    dp.add_handler(CommandHandler("selecoes_masculinas", pick_men_nationals))
+    dp.add_handler(CommandHandler("copa", pick_men_nationals))
     dp.add_handler(CommandHandler("selecoes_femininas", pick_women_nationals))
     dp.add_handler(CommandHandler("update", update))
 
