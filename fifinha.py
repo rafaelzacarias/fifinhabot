@@ -57,10 +57,11 @@ def help(bot, update):
 
 def shuffle_pairs(bot, update):
     """Send a message when the command /duplas is issued."""
-    names = update.message.text.split('/duplas ')[1].encode('utf-8').split(' ')
-    
-    if len(names) == 0:
+    if update.message.text == '/duplas':
         names = ["Le", "Lu", "Mu", "Za"]
+    else:
+        names = update.message.text.split('/duplas ')[1].encode('utf-8').split(' ')
+    
     
     random.shuffle(random.shuffle(random.shuffle(names)))
     reply_text = "As duplas são:\n"
@@ -73,7 +74,11 @@ def shuffle_pairs(bot, update):
 
 def pick_teams(bot, update):
     """Send a message when the command /times is issued."""
-    rating = update.message.text.split('/times ')[1]
+    if update.message.text == '/times':
+        rating = "5"
+    else:
+        rating = update.message.text.split('/times ')[1]
+        
     reply_text = _pick_teams(teams, rating)
     if random.randint(1,100) <= 10:
         reply_text += "\n Nao vale tentar /copa ou /selecoes_femininas as vezes?!"
@@ -96,8 +101,6 @@ def error(bot, update, error):
     logger.warning('Update "%s" caused error "%s"', update, error)
 
 def _pick_teams(teams, rating):
-    if rating == "":
-        rating = "5"
     if rating in teams:
         if len(teams[rating]) >= 2:
             reply_text = '[' + ', '.join(random.sample(teams[rating], 2)) + ']'
