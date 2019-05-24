@@ -57,8 +57,13 @@ def help(bot, update):
 
 def shuffle_pairs(bot, update):
     """Send a message when the command /duplas is issued."""
-    names = update.message.text.split('/duplas ')[1].encode('utf-8').split(' ')
-    random.shuffle(names)
+    if update.message.text == '/duplas':
+        names = ["Le", "Lu", "Mu", "Za"]
+    else:
+        names = update.message.text.split('/duplas ')[1].encode('utf-8').split(' ')
+    
+    
+    random.shuffle(random.shuffle(random.shuffle(names)))
     reply_text = "As duplas são:\n"
     for i in range(0,len(names),2):
         if (i+1)<len(names):
@@ -69,8 +74,14 @@ def shuffle_pairs(bot, update):
 
 def pick_teams(bot, update):
     """Send a message when the command /times is issued."""
-    rating = update.message.text.split('/times ')[1]
+    if update.message.text == '/times':
+        rating = "5"
+    else:
+        rating = update.message.text.split('/times ')[1]
+        
     reply_text = _pick_teams(teams, rating)
+    if random.randint(1,100) <= 10:
+        reply_text += "\n Nao vale tentar /copa ou /selecoes_femininas as vezes?!"
     update.message.reply_text(reply_text)
 
 def pick_men_nationals(bot, update):
@@ -80,7 +91,7 @@ def pick_men_nationals(bot, update):
     update.message.reply_text(reply_text)
 
 def pick_women_nationals(bot, update):
-    """Send a message when the command /selecoes_masculinas is issued."""
+    """Send a message when the command /selecoes_femininas is issued."""
     rating = update.message.text.split('/selecoes_femininas ')[1]
     reply_text = _pick_teams(women_nationals, rating)
     update.message.reply_text(reply_text)
