@@ -61,9 +61,9 @@ def shuffle_pairs(bot, update):
         names = ["Le", "Lu", "Mu", "Za"]
     else:
         names = update.message.text.split('/duplas ')[1].encode('utf-8').split(' ')
-    
-    
-    random.shuffle(random.shuffle(random.shuffle(names)))
+
+
+    random.shuffle(names)
     reply_text = "As duplas são:\n"
     for i in range(0,len(names),2):
         if (i+1)<len(names):
