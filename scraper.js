@@ -1,5 +1,5 @@
-// Run the following script in webpages [1], [2] and [3],
-// copy the results and save in the file "teams.csv"
+// Run the following script in webpages [1], [2] and [3] and save the
+// results in "teams.csv", "men_nationals.csv" and "women_national.csv".
 //
 // [1] https://www.fifaindex.com/teams
 // [2] https://www.fifaindex.com/teams/?type=1
